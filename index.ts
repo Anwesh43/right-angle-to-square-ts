@@ -197,3 +197,25 @@ class RightAngleToSquare {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    rats : RightAngleToSquare = new RightAngleToSquare()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.rats.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.rats.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.rats.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
