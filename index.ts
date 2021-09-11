@@ -42,12 +42,15 @@ class DrawingUtil {
         const sc3 : number = ScaleUtil.divideScale(scale, 2, parts)
         const sc4 : number = ScaleUtil.divideScale(scale, 3, parts)
         context.save()
-        context.translate(w / 2, h / 2)
+        context.translate(w / 2, h / 2 + (h / 2) * sc4)
         for (var j = 0; j < 2; j++) {
             context.save()
-            context.rotate(deg * (1 - 2 * j))
+            context.rotate(deg * j * sc2)
+            context.translate((w / 2) * (1 - sc1), 0)
+            DrawingUtil.drawLine(context, 0, 0, size, 0)
             context.restore()
         }
+        context.fillRect(0, 0, size * sc3, size * Math.floor(sc2))
         context.restore()
     }
 
@@ -55,6 +58,7 @@ class DrawingUtil {
         context.lineCap = 'round'
         context.lineWidth = Math.min(w, h) / strokeFactor 
         context.strokeStyle = colors[i]
+        context.fillStyle = colors[i]
         DrawingUtil.drawRightAngleToSquare(context, scale)
     }
 }
